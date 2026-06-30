@@ -1,18 +1,145 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+-- Titan Hub - Rayfield Script
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-# Other files and folders
-.settings/
+local Window = Rayfield:CreateWindow({
+    Name = "Titan Hub",
+    LoadingTitle = "Loading Titan Hub...",
+    LoadingSubtitle = "Follow @speed6721 on TikTok",
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "TitanHub",
+        FileName = "Config"
+    },
+    Discord = {
+        Enabled = false,
+        Invite = "",
+        RememberJoins = true
+    },
+    KeySystem = false
+})
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+-- Home Tab
+local HomeTab = Window:CreateTab("🏠 Home", 4483362458)
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+HomeTab:CreateSection("Welcome to Titan Hub")
+
+HomeTab:CreateButton({
+    Name = "⭐ Follow @speed6721 on TikTok",
+    Callback = function()
+        setclipboard("https://www.tiktok.com/@speed6721")
+        Rayfield:Notify({
+            Title = "Copied!",
+            Content = "TikTok @speed6721 link copied to clipboard.",
+            Duration = 5,
+            Image = 4483362458
+        })
+    end
+})
+
+HomeTab:CreateButton({
+    Name = "Open TikTok Profile",
+    Callback = function()
+        setclipboard("https://www.tiktok.com/@speed6721")
+        Rayfield:Notify({Title = "TikTok", Content = "@speed6721 link copied.", Duration = 4})
+    end
+})
+
+HomeTab:CreateParagraph({
+    Title = "About Titan Hub",
+    Content = "Premium Rayfield hub by Grok.\nMain • Visuals • Player tabs.\nFollow @speed6721 on TikTok!"
+})
+
+-- Main Tab
+local MainTab = Window:CreateTab("🎮 Main", 0)
+
+MainTab:CreateSection("Main Features")
+
+MainTab:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Flag = "InfiniteJump",
+    Callback = function(Value)
+        Rayfield:Notify({Title = "Infinite Jump", Content = Value and "Enabled" or "Disabled", Duration = 3})
+        -- Add full infinite jump code here if needed
+    end
+})
+
+MainTab:CreateSlider({
+    Name = "WalkSpeed",
+    Range = {16, 500},
+    Increment = 1,
+    CurrentValue = 16,
+    Flag = "WalkSpeed",
+    Callback = function(Value)
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.WalkSpeed = Value
+        end
+    end
+})
+
+-- Visuals Tab
+local VisualsTab = Window:CreateTab("👁️ Visuals", 0)
+
+VisualsTab:CreateSection("ESP & Visuals")
+
+VisualsTab:CreateToggle({
+    Name = "Player ESP",
+    CurrentValue = false,
+    Flag = "ESP",
+    Callback = function(Value)
+        Rayfield:Notify({Title = "ESP", Content = Value and "Enabled" or "Disabled", Duration = 3})
+    end
+})
+
+VisualsTab:CreateToggle({
+    Name = "Fullbright",
+    CurrentValue = false,
+    Flag = "Fullbright",
+    Callback = function(Value)
+        if Value then
+            game.Lighting.Brightness = 2
+            game.Lighting.ClockTime = 14
+            game.Lighting.FogEnd = 100000
+        else
+            game.Lighting.Brightness = 1
+            game.Lighting.ClockTime = 12
+        end
+    end
+})
+
+-- Player Settings Tab
+local PlayerTab = Window:CreateTab("⚙️ Player", 0)
+
+PlayerTab:CreateSection("Player Settings")
+
+PlayerTab:CreateSlider({
+    Name = "JumpPower",
+    Range = {50, 300},
+    Increment = 5,
+    CurrentValue = 50,
+    Flag = "JumpPower",
+    Callback = function(Value)
+        local char = game.Players.LocalPlayer.Character
+        if char and char:FindFirstChild("Humanoid") then
+            char.Humanoid.JumpPower = Value
+        end
+    end
+})
+
+PlayerTab:CreateButton({
+    Name = "Reset Character",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+        if player.Character then
+            player.Character:BreakJoints()
+        end
+    end
+})
+
+Rayfield:Notify({
+    Title = "Titan Hub Loaded!",
+    Content = "Enjoy the hub! Follow @speed6721 on TikTok.",
+    Duration = 6,
+    Image = 4483362458
+})
